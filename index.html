@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+    <link rel= "stylesheet" href= "./style.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/css/bootstrap4-toggle.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/js/bootstrap4-toggle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+    <script src= "./script.js"></script>
+    <title>Jared Simpson's Portfolio</title>
+</head>
+<body>
+    <div class="container col-md-4">
+        <h2> Password Generator </h2>
+        <div class="result-container">
+            <span id="result"></span>
+            <button class="btn" id="clipboard">
+                <i class="far fa-clipboard"></i>
+            </button>
+        </div>
+        <div class="settings">
+            <div class="setting">
+                <label for="length">Password length</label>
+                <input class= "input" type="number" id= "length" min="4" max="20" value="20">
+            </div>
+            <div class="setting">
+                <label for="uppercase">Include uppercase letters</label>
+                <input type="checkbox" id= "uppercase" checked>
+            </div>
+            <div class="setting">
+                <label for="lowercase">Include lowercase letters</label>
+                <input type="checkbox" id= "lowercase" checked>
+            </div>
+            <div class="setting">
+                <label for="numbers">Include numbers</label>
+                <input type="checkbox" id= "numbers" checked>
+            </div>
+            <div class="setting">
+                <label for="symbols">Include symbols</label>
+                <input type="checkbox" id= "symbols" checked>
+            </div>
+        </div>
+        <button class= "btn btn-large" id= "generate">
+            Generate password
+        </button>
+    </div>
+</body>
+
+<script>
+
+    // Document Elements
+    const result = document.getElementById('result');
+    const passwordLength = document.getElementById('length');
+    const uppercase = document.getElementById('uppercase');
+    const lowercase = document.getElementById('lowercase');
+    const numbers = document.getElementById('numbers');
+    const symbols = document.getElementById('symbols');
+    const generate = document.getElementById('generate');
+
+    // All checked boxes
+    
+    const allCharacters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'a', 'b', 'c', 'd',  'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, '!', '~', '`', '@', '#', '$', '%', '^', '&', '*', '(', ')', '-', '_', '+', '=', '[', ']', '?', '/'];
+    
+    // Three boxes checked
+
+    const onlyUpperLowerNumbers  = ['A', 'B', 'C', 'D',  'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'a', 'b', 'c', 'd',  'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+    const onlyUpperLowerSymbols = ['A', 'B', 'C', 'D',  'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'a', 'b', 'c', 'd',  'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z','!', '~', '`', '@', '#', '$', '%', '^', '&', '*', '(', ')', '-', '_', '+', '=', '[', ']', '?', '/'];
+    const onlyUpperNumbersSymbols = ['A', 'B', 'C', 'D',  'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, '!', '~', '`', '@', '#', '$', '%', '^', '&', '*', '(', ')', '-', '_', '+', '=', '[', ']', '?', '/'];
+    const onlyLowerNumbersSymbols = ['a', 'b', 'c', 'd',  'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, '!', '~', '`', '@', '#', '$', '%', '^', '&', '*', '(', ')', '-', '_', '+', '=', '[', ']', '?', '/'];
+
+    // Two boxes checked
+
+    const onlyUpperLower  = ['A', 'B', 'C', 'D',  'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'a', 'b', 'c', 'd',  'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'];
+    const onlyUpperNumbers = ['A', 'B', 'C', 'D',  'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+    const onlyUpperSymbols = ['A', 'B', 'C', 'D',  'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '!', '~', '`', '@', '#', '$', '%', '^', '&', '*', '(', ')', '-', '_', '+', '=', '[', ']', '?', '/'];
+    const onlyLowerNumbers = ['a', 'b', 'c', 'd',  'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+    const onlyLowerSymbols = ['a', 'b', 'c', 'd',  'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '!', '~', '`', '@', '#', '$', '%', '^', '&', '*', '(', ')', '-', '_', '+', '=', '[', ']', '?', '/'];
+    const onlyNumbersSymbols = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, '!', '~', '`', '@', '#', '$', '%', '^', '&', '*', '(', ')', '-', '_', '+', '=', '[', ']', '?', '/'];
+
+    // One boxes checked
+
+    const onlyUppercase = ['A', 'B', 'C', 'D',  'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
+    const onlyLowercase = ['a', 'b', 'c', 'd',  'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'];
+    const onlyNumbers = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+    const onlySymbols = ['!', '~', '`', '@', '#', '$', '%', '^', '&', '*', '(', ')', '-', '_', '+', '=', '[', ']', '?', '/'];
+
+    generate.addEventListener('click', function() {
+
+        let result1 = '';
+        let result2 = '';
+        let result3 = '';
+        let result4 = '';
+        let result5 = '';
+        let result6 = '';
+        let result7 = '';
+        let result8 = '';
+        let result9 = '';
+        let result10 = '';
+        let result11 = '';
+        let result12 = '';
+        let result13 = '';
+        let result14 = '';
+        let result15 = '';
+
+        // All Boxes Checked
+
+        if (uppercase.checked && lowercase.checked && numbers.checked && symbols.checked) {
+            for ( i = 0; i < passwordLength.value; i++) {
+                // let allCharactersRandom = Math.floor(Math.random() * allCharacters.length);
+                // result1 += allCharacters[allCharactersRandom];
+                result1 += allCharacters[Math.floor(Math.random() * allCharacters.length)];
+                result.innerText = result1;
+            }
+        } 
+
+        // Three Boxes Checked
+        
+        else if (uppercase.checked && lowercase.checked && numbers.checked && symbols) {
+            for ( i = 0; i < passwordLength.value; i++) {
+                // const onlyUpperLowerNumbersRandom = Math.floor(Math.random() * onlyUpperLowerNumbers.length);
+                result2 += onlyUpperLowerNumbers[Math.floor(Math.random() * onlyUpperLowerNumbers.length)];
+                result.innerText = result2;
+            }
+        } 
+        else if (uppercase.checked && lowercase.checked && numbers && symbols.checked) {
+            for ( i = 0; i < passwordLength.value; i++) {
+                // const onlyUpperLowerSymbolsRandom = Math.floor(Math.random() * onlyUpperLowerSymbols.length);
+                result3 += onlyUpperLowerSymbols[Math.floor(Math.random() * onlyUpperLowerSymbols.length)];
+                result.innerText = result3;
+                }
+        } 
+        else if (uppercase.checked && lowercase && numbers.checked && symbols.checked) {
+            for ( i = 0; i < passwordLength.value; i++) {
+                // const onlyUpperNumbersSymbolsRandom = Math.floor(Math.random() * onlyUpperNumbersSymbols.length);
+                result4 += onlyUpperNumbersSymbols[Math.floor(Math.random() * onlyUpperNumbersSymbols.length)];
+                result.innerText = result4;
+            }
+        } 
+        else if (uppercase && lowercase.checked && numbers.checked && symbols.checked) {
+            for ( i = 0; i < passwordLength.value; i++) {
+                // const onlyLowerNumbersSymbolsRandom = Math.floor(Math.random() * onlyLowerNumbersSymbols.length);
+                result5 += onlyLowerNumbersSymbols[Math.floor(Math.random() * onlyLowerNumbersSymbols.length)];
+                result.innerText = result5;
+            }
+        }
+        
+        // Two Boxes Checked
+
+        else if (uppercase.checked && lowercase.checked && numbers && symbols) {
+            for ( i = 0; i < passwordLength.value; i++) {
+                // const onlyUpperLowerRandom = Math.floor(Math.random() * onlyUpperLower.length);
+                result6 += onlyUpperLower[Math.floor(Math.random() * onlyUpperLower.length)];
+                result.innerText = result6;
+            }
+        }
+        else if (uppercase.checked && lowercase && numbers.checked && symbols) {
+            for ( i = 0; i < passwordLength.value; i++) {
+                // const onlyUpperNumbersRandom = Math.floor(Math.random() * onlyUpperNumbers.length);
+                result7 += onlyUpperNumbers[Math.floor(Math.random() * onlyUpperNumbers.length)];
+                result.innerText = result7;
+            }
+        }
+        else if (uppercase.checked && lowercase && numbers && symbols.checked) {
+            for ( i = 0; i < passwordLength.value; i++) {
+                // const onlyUpperSymbolsRandom = Math.floor(Math.random() * onlyUpperSymbols.length);
+                result8 += onlyUpperSymbols[Math.floor(Math.random() * onlyUpperSymbols.length)];
+                result.innerText = result8;
+            }
+        }
+        else if (uppercase && lowercase.checked && numbers.checked && symbols) {
+            for ( i = 0; i < passwordLength.value; i++) {
+                // const onlyLowerNumbersRandom = Math.floor(Math.random() * onlyLowerNumbers.length);
+                result9 = onlyLowerNumbers[Math.floor(Math.random() * onlyLowerNumbers.length)];
+                result.innerText = result9;
+            }
+        }
+        else if (uppercase && lowercase.checked && numbers && symbols.checked) {
+            for ( i = 0; i < passwordLength.value; i++) {
+                // const onlyLowerSymbolsRandom = Math.floor(Math.random() * onlyLowerSymbols.length);
+                result10 += onlyLowerSymbols[Math.floor(Math.random() * onlyLowerSymbols.length)];
+                result.innerText = result10;
+            }
+        }
+        else if (uppercase && lowercase && numbers.checked && symbols.checked) {
+            for ( i = 0; i < passwordLength.value; i++) {
+                // const onlyNumbersSymbolsRandom = Math.floor(Math.random() * onlyNumbersSymbols.length);
+                result11 += onlyNumbersSymbols[Math.floor(Math.random() * onlyNumbersSymbols.length)];
+                result.innerText = result11;
+            }
+        }
+
+        // One Box Checked
+
+        else if (uppercase.checked && lowercase && numbers && symbols){
+            for ( i = 0; i < passwordLength.value; i++) {
+                // const onlyUpperCaseRandom = Math.floor(Math.random() * onlyUppercase.length);
+                result12 += onlyUppercase[Math.floor(Math.random() * onlyUppercase.length)];
+                result.innerText = result12;
+            }
+        }
+        else if (uppercase && lowercase.checked && numbers && symbols){
+            for ( i = 0; i < passwordLength.value; i++) {
+                // const onlyLowerCaseRandom = Math.floor(Math.random() * onlyLowercase.length);
+                result13 += onlyLowercase[Math.floor(Math.random() * onlyLowercase.length)];
+                result.innerText = result13;
+            }
+        }
+        else if (uppercase && lowercase && numbers.checked && symbols){
+            for ( i = 0; i < passwordLength.value; i++) {
+                // const onlyNumbersRandom = Math.floor(Math.random() * onlyNumbers.length);
+                result14 += onlyNumbers[Math.floor(Math.random() * onlyNumbers.length)];
+                result.innerText = result14;
+            }
+        }
+        else if (uppercase && lowercase && numbers && symbols.checked){
+            for ( i = 0; i < passwordLength.value; i++) {
+                // const onlySymbolsRandom = Math.floor(Math.random() * onlySymbols.length);
+                result15 += onlySymbols[Math.floor(Math.random() * onlySymbols.length)];
+                result.innerText = result15;
+        }
+    }
+});
+
+    // Random Length Number
+
+        // const allCharactersRandom = Math.floor(Math.random() * allCharacters.length);
+        // const onlyUpperLowerNumbersRandom = Math.floor(Math.random() * onlyUpperLowerNumbers.length);
+        // const onlyUpperLowerSymbolsRandom = Math.floor(Math.random() * onlyUpperLowerSymbols.length);
+        // const onlyUpperNumbersSymbolsRandom = Math.floor(Math.random() * onlyUpperNumbersSymbols.length);
+        // const onlyLowerNumbersSymbolsRandom = Math.floor(Math.random() * onlyLowerNumbersSymbols.length);
+        // const onlyUpperLowerRandom = Math.floor(Math.random() * onlyUpperLower.length);
+        // const onlyUpperNumbersRandom = Math.floor(Math.random() * onlyUpperNumbers.length);
+        // const onlyUpperSymbolsRandom = Math.floor(Math.random() * onlyUpperSymbols.length);
+        // const onlyLowerNumbersRandom = Math.floor(Math.random() * onlyLowerNumbers.length);
+        // const onlyLowerSymbolsRandom = Math.floor(Math.random() * onlyLowerSymbols.length);
+        // const onlyNumbersSymbolsRandom = Math.floor(Math.random() * onlyNumbersSymbols.length);
+        // const onlyUpperCaseRandom = Math.floor(Math.random() * onlyUppercase.length);
+        // const onlyLowerCaseRandom = Math.floor(Math.random() * onlyLowercase.length);
+        // const onlySymbolsRandom = Math.floor(Math.random() * onlySymbols.length);
+        // const onlyNumbersRandom = Math.floor(Math.random() * onlyNumbers.length);
+
+
+</script>
