@@ -177,7 +177,7 @@
         else if (uppercase && lowercase.checked && numbers.checked && symbols) {
             for ( i = 0; i < passwordLength.value; i++) {
                 // const onlyLowerNumbersRandom = Math.floor(Math.random() * onlyLowerNumbers.length);
-                result9 = onlyLowerNumbers[Math.floor(Math.random() * onlyLowerNumbers.length)];
+                result9 += onlyLowerNumbers[Math.floor(Math.random() * onlyLowerNumbers.length)];
                 result.innerText = result9;
             }
         }
